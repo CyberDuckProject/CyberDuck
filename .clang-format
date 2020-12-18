@@ -6,7 +6,7 @@ NamespaceIndentation: All
 IndentWidth: 4
 TabWidth: 4
 UseTab: ForIndentation
-ColumnLimit: 0
+ColumnLimit: 100
 AccessModifierOffset: -4
 SortIncludes: true
 SpaceAfterTemplateKeyword: false
