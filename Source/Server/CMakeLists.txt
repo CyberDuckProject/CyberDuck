@@ -6,6 +6,8 @@ add_executable(
 	Json.cpp
 	AnalogPin.h
 	AnalogPin.cpp
+	Utilities.h
+	Utilities.cpp
 )
 
 # Dependencies
