@@ -1,6 +1,9 @@
 add_executable(
 	Server
 	Main.cpp
+	FundamentalTypes.h
+	Json.h
+	Json.cpp
 )
 
 # Dependencies

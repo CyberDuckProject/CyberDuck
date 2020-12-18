@@ -1,6 +1,7 @@
+#include "Json.h"
 #include <iostream>
 
-int main()
+i32 main()
 {
-	std::cout << "Hello, world!\n";
+	std::cout << to_json(json_data{}) << '\n';
 }
