@@ -1,0 +1,8 @@
+# Editor configs
+.vscode/
+.idea/
+
+# Build directories
+build/
+Build/
+cmake-build-*/
