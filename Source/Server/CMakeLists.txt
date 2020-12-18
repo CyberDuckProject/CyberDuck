@@ -4,6 +4,8 @@ add_executable(
 	FundamentalTypes.h
 	Json.h
 	Json.cpp
+	AnalogPin.h
+	AnalogPin.cpp
 )
 
 # Dependencies
