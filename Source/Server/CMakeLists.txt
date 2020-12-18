@@ -8,6 +8,8 @@ add_executable(
 	AnalogPin.cpp
 	Utilities.h
 	Utilities.cpp
+	DigitalPin.h
+	DigitalPin.cpp
 )
 
 # Dependencies
