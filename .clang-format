@@ -1,0 +1,14 @@
+FixNamespaceComments: false
+PointerAlignment: Left
+AllowShortFunctionsOnASingleLine: None
+BreakBeforeBraces: Allman
+NamespaceIndentation: All
+IndentWidth: 4
+TabWidth: 4
+UseTab: ForIndentation
+ColumnLimit: 0
+AccessModifierOffset: -4
+SortIncludes: true
+SpaceAfterTemplateKeyword: false
+AlwaysBreakTemplateDeclarations: Yes
+IndentPPDirectives: BeforeHash
