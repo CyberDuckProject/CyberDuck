@@ -29,8 +29,15 @@ std::string read_file(const fs::path& path)
 	}
 }
 
-int main()
+int main(int argc, char** argv)
 {
+	if (argc != 2)
+	{
+		std::cerr << "Usage: " << fs::path(argv[0]).filename() << " path/to/served/directory";
+		return EXIT_FAILURE;
+	}
+	fs::path served_directory = argv[1];
+
 	net::io_context context;
 	tcp::acceptor acceptor{context, {tcp::v4(), 43543}};
 
@@ -51,18 +58,22 @@ int main()
 
 			fs::path requested_file =
 			    request.target().substr(1, request.target().size() - 1).to_string();
+			requested_file = served_directory / requested_file;
 			switch (request.method())
 			{
 			case http::verb::get:
 				if (fs::exists(requested_file))
-				{
+                {
 					response.result(http::status::ok);
 					response.set(http::field::content_type, "text/plain");
 					beast::ostream(response.body()) << read_file(requested_file);
 				}
-				response.result(http::status::bad_request);
-				response.set(http::field::content_type, "text/plain");
-				beast::ostream(response.body()) << "Requested file cannot be served\r\n";
+				else
+                {
+                    response.result(http::status::bad_request);
+                    response.set(http::field::content_type, "text/plain");
+                    beast::ostream(response.body()) << "Requested file cannot be served\r\n";
+				}
 				break;
 			default:
 				response.result(http::status::bad_request);
