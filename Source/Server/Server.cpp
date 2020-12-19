@@ -39,7 +39,8 @@ void handle_requests()
 	{
 		response.result(http::status::ok);
 		response.set(http::field::content_type, "application/json");
-		beast::ostream(response.body()) << "{\"test\": \"Hello, world!\"}"; // why create an ostream??
+		beast::ostream(response.body())
+		    << "{\"test\": \"Hello, world!\"}"; // why create an ostream??
 	}
 	else
 	{
