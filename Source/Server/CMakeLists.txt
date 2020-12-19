@@ -1,19 +1,16 @@
 add_executable(
 	Server
 	Main.cpp
-	FundamentalTypes.h
 	Json.h
 	Json.cpp
-	AnalogPin.h
-	AnalogPin.cpp
-	Utilities.h
-	Utilities.cpp
-	DigitalPin.h
-	DigitalPin.cpp
+	Server.h
+	Server.cpp
 )
 
 # Dependencies
 target_link_libraries(
 	Server PRIVATE
+	CyberDuck::Sensors
 	ThirdParty::Json
+	ThirdParty::Beast
 )
