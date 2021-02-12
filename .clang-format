@@ -1,14 +1,27 @@
-FixNamespaceComments: false
-PointerAlignment: Left
-AllowShortFunctionsOnASingleLine: None
-BreakBeforeBraces: Allman
-NamespaceIndentation: All
-IndentWidth: 4
 TabWidth: 4
+IndentWidth: 4
 UseTab: ForIndentation
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+FixNamespaceComments: true
+AllowShortFunctionsOnASingleLine: None
+PointerAlignment: Left
 ColumnLimit: 100
 AccessModifierOffset: -4
-SortIncludes: true
-SpaceAfterTemplateKeyword: false
-AlwaysBreakTemplateDeclarations: Yes
-IndentPPDirectives: BeforeHash
