@@ -1,2 +1,0 @@
-add_subdirectory(Json)
-add_subdirectory(Beast)
