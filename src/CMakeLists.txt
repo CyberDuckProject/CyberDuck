@@ -1,4 +1,6 @@
-# Third-party libraries
-add_subdirectory(third_party)
-
-# Targets
+add_executable(
+	CyberDuck
+	basic_sensors.h
+	basic_sensors.cpp
+	main.cpp
+)
