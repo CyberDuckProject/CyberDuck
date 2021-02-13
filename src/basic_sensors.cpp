@@ -13,6 +13,8 @@ float analog_pin_volts(uint32_t number)
 
 	std::ifstream file{"/sys/bus/iio/devices/iio:device/in_voltage" + std::to_string(number) +
 	                   "_raw"};
+	assert(file.is_open());
+
 	uint32_t value;
 	file >> value;
 
