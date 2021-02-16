@@ -11,7 +11,7 @@ float analog_pin_volts(uint32_t number)
 {
 	assert(number <= 7);
 
-	std::ifstream file{"/sys/bus/iio/devices/iio:device/in_voltage" + std::to_string(number) +
+	std::ifstream file{"/sys/bus/iio/devices/iio:device0/in_voltage" + std::to_string(number) +
 	                   "_raw"};
 	assert(file.is_open());
 
@@ -47,8 +47,8 @@ float temperature()
 
 float turbidity()
 {
-	// TODO: calculate voltage before resistor(s)
-	return 0.f;
+	constexpr float multiplier{18.f / (18.f + 33.f)};
+	return turbidity_value(analog_pin_volts(0) * multiplier);
 }
 
 } // namespace basic_sensors
