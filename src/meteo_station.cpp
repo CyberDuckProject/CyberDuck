@@ -1,20 +1,16 @@
 #include "meteo_station.h"
 
-namespace meteo_station {
-
-float temperature()
+float atmospheric_temperature()
 {
 	return 0.f;
 }
 
-float humidity()
+float atmospheric_humidity()
 {
 	return 0.f;
 }
 
-float pressure()
+float atmospheric_pressure()
 {
 	return 0.f;
 }
-
-} // namespace meteo_station

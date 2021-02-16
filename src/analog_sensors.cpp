@@ -1,9 +1,8 @@
-#include "basic_sensors.h"
+#include "analog_sensors.h"
 
 #include <cassert>
 #include <fstream>
-
-namespace basic_sensors {
+#include <cstdint>
 
 namespace {
 
@@ -29,14 +28,14 @@ float turbidity_value(float voltage)
 
 } // namespace
 
-float dust()
+float atmospheric_dust()
 {
 	return 0.f;
 }
 
-float temperature()
+float water_temperature()
 {
-	constexpr float pin_number{1};
+	constexpr uint32_t pin_number{1};
 	float voltage{analog_pin_volts(pin_number)};
 
 	constexpr float base_degrees{25.f};
@@ -45,10 +44,9 @@ float temperature()
 	return base_degrees + (voltage - base_voltage) / degree_volts;
 }
 
-float turbidity()
+float water_turbidity()
 {
+	constexpr uint32_t pin_number{0};
 	constexpr float multiplier{18.f / (18.f + 33.f)};
-	return turbidity_value(analog_pin_volts(0) * multiplier);
+	return turbidity_value(analog_pin_volts(pin_number) * multiplier);
 }
-
-} // namespace basic_sensors
