@@ -26,6 +26,29 @@ float turbidity_value(float voltage)
 	return -1120.4f * voltage * voltage + 5742.3f * voltage - 4352.9f;
 }
 
+template<typename value_type>
+void write_to_file(const value_type& value, const std::string& path)
+{
+	std::ofstream file{path};
+	assert(file.is_open());
+
+	file << value;
+}
+
+void setup_gpio_pin(uint32_t number)
+{
+	write_to_file(number, "/sys/class/gpio/export");
+	
+	std::string port_dir{"/sys/class/gpio/gpio" + std::to_string(number) + "/"};
+	write_to_file("none", port_dir + "edge");
+	write_to_file("out", port_dir + "direction");
+}
+
+void set_gpio_value(uint32_t number, bool value)
+{
+	write_to_file(value ? '1' : '0', "/sys/class/gpio/gpio" + std::to_string(number) + "/value");
+}
+
 } // namespace
 
 float atmospheric_dust()
