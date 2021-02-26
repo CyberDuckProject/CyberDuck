@@ -30,6 +30,17 @@ float turbidity_value(float voltage)
 
 float atmospheric_dust()
 {
+	// Set GPIO3_1 to high
+	// Wait 28ms
+	// Read AIN3 (convert with turbidity multiplier)
+	// Wait 4ms
+	// Set GPIO3_1 to low
+
+	// base voltage = 0.9v
+	// base value = 0
+	// step = 0.1 mg/m^3
+	// step volts = 0.5v	
+
 	return 0.f;
 }
 
