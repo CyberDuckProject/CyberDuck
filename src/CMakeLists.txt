@@ -6,3 +6,8 @@ add_executable(
 	meteo_station.h
 	meteo_station.cpp
 )
+
+target_link_libraries(
+	CyberDuck PRIVATE
+	gpiod
+)
