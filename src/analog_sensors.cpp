@@ -3,6 +3,8 @@
 #include <cassert>
 #include <fstream>
 #include <cstdint>
+#include <gpiod.hpp>
+#include <unistd.h>
 
 namespace {
 
@@ -21,27 +23,43 @@ float analog_pin_volts(uint32_t number)
 	return static_cast<float>(value) * multiplier;
 }
 
-float turbidity_value(float voltage)
+float calculate_turbidity(float voltage)
 {
 	return -1120.4f * voltage * voltage + 5742.3f * voltage - 4352.9f;
+}
+
+float calculate_dust(float voltage)
+{
+	constexpr float base_voltage{0.9f};
+	constexpr float step_volts{0.5f};
+	constexpr float step_value{0.1f};
+
+	return (voltage - base_voltage) / step_volts * step_value;
 }
 
 } // namespace
 
 float atmospheric_dust()
 {
-	// Set GPIO3_1 to high
-	// Wait 28ms
-	// Read AIN3 (convert with turbidity multiplier)
-	// Wait 4ms
-	// Set GPIO3_1 to low
+	gpiod::chip chip{"gpiochip3"};
+	gpiod::line line{chip.get_line(1)};
+	
+	gpiod::line_request config{};
+	config.request_type = gpiod::line_request::DIRECTION_OUTPUT;
+	config.consumer = "Consumer";
+	line.request(config);
 
-	// base voltage = 0.9v
-	// base value = 0
-	// step = 0.1 mg/m^3
-	// step volts = 0.5v	
+	line.set_value(1);
+	usleep(28000);
 
-	return 0.f;
+	constexpr uint32_t pin{3};
+	constexpr float multiplier{18.f / (18.f + 33.f)};
+	float volts{multiplier * analog_pin_volts(pin)};
+
+	usleep(4000);
+	line.set_value(0);
+
+	return calculate_dust(volts);
 }
 
 float water_temperature()
@@ -59,5 +77,5 @@ float water_turbidity()
 {
 	constexpr uint32_t pin_number{0};
 	constexpr float multiplier{18.f / (18.f + 33.f)};
-	return turbidity_value(analog_pin_volts(pin_number) * multiplier);
+	return calculate_turbidity(analog_pin_volts(pin_number) * multiplier);
 }
