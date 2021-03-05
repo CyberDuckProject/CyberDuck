@@ -23,7 +23,7 @@ jobs:
       run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Install Dependencies
-      run: sudo apt-get install -y libgpiod-dev
+      run: sudo apt-get install -y libgpiod-dev libi2c-dev
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable

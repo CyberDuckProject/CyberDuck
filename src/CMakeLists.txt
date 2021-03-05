@@ -10,4 +10,5 @@ add_executable(
 target_link_libraries(
 	CyberDuck PRIVATE
 	gpiodcxx
+	third_party::bme280
 )
