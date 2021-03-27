@@ -2,8 +2,7 @@
 #include "encoder.h"
 #include "meteo_station.h"
 #include "server.h"
-#include <chrono>
-#include <thread>
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
@@ -26,9 +25,5 @@ int main(int argc, char* argv[])
 	}
 
 	server messenger{provider};
-	while (true)
-	{
-		using namespace std::chrono_literals;
-		std::this_thread::sleep_for(1000ms);
-	}
+	std::cin.get();
 }
