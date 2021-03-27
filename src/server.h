@@ -14,11 +14,13 @@ class server
     std::atomic_bool should_stop;
     std::thread worker;
     std::string message;
+    std::function<std::string()> provider;
 	mutable std::mutex mut;
 public:
-    explicit server(unsigned short port = 80);
+    explicit server(const std::function<std::string()>& new_provider, unsigned short port = 80);
 	~server();
-	void set_message(const std::string& new_message);
+
+	void set_message_provider(const std::function<std::string()>& new_provider);
 private:
     void run();
 };

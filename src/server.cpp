@@ -6,9 +6,9 @@ namespace http = beast::http;
 namespace asio = boost::asio;
 using tcp = asio::ip::tcp;
 
-server::server(unsigned short port)
-    : context{}, acceptor{context, {tcp::v4(), port}}, should_stop{false}, worker{&server::run,
-                                                                                  this}
+server::server(const std::function<std::string()>& new_provider, unsigned short port)
+    : context{}, acceptor{context, {tcp::v4(), port}},
+      should_stop{false}, worker{&server::run, this}, provider{new_provider}
 {
 }
 void server::run()
@@ -31,14 +31,14 @@ void server::run()
 			response.version(request.version());
 			response.keep_alive(false);
 
-			if (request.method() == http::verb::get)
+			if (request.method() == http::verb::get && request.target() == "/cyberduck")
 			{
 				response.result(http::status::ok);
 				response.set(http::field::content_type, "application/json");
 				response.set(http::field::access_control_allow_origin, "*");
 				{
 					std::lock_guard<std::mutex> lock{mut};
-					beast::ostream(response.body()) << message;
+					beast::ostream(response.body()) << provider();
 				}
 			}
 			else
@@ -65,8 +65,8 @@ server::~server()
 	should_stop = true;
 	worker.join();
 }
-void server::set_message(const std::string& new_message)
+void server::set_message_provider(const std::function<std::string()>& new_provider)
 {
 	std::lock_guard<std::mutex> lock{mut};
-	message = new_message;
+	provider = new_provider;
 }
