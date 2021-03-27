@@ -35,6 +35,7 @@ void server::run()
 			{
 				response.result(http::status::ok);
 				response.set(http::field::content_type, "application/json");
+				response.set(http::field::access_control_allow_origin, "*");
 				{
 					std::lock_guard<std::mutex> lock{mut};
 					beast::ostream(response.body()) << message;
