@@ -3,6 +3,7 @@
 #include "meteo_station.h"
 #include "server.h"
 #include <iostream>
+#include <cstdlib>
 
 int main(int argc, char* argv[])
 {
@@ -24,6 +25,20 @@ int main(int argc, char* argv[])
 		};
 	}
 
-	server messenger{provider};
-	std::cin.get();
+	try
+    {
+        server messenger{provider};
+        std::cin.get();
+	}
+    catch(const std::exception& e)
+    {
+        std::cerr << "An error has occured: " << e.what() << "\nDid you run the program as root user?\n";
+        return EXIT_FAILURE;
+	}
+	catch(...)
+    {
+		std::cerr << "An unknown error has occured." << "\nDid you run the program as root user?\n";
+		return EXIT_FAILURE;
+	}
+	return EXIT_SUCCESS;
 }
