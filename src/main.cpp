@@ -1,16 +1,24 @@
 #include "analog_sensors.h"
+#include "encoder.h"
 #include "meteo_station.h"
+#include "server.h"
+#include <chrono>
+#include <thread>
 #include <iostream>
 
 int main()
 {
-	std::cout << "Analog sensors:\n";
-	std::cout << "  Atmospheric dust: " << atmospheric_dust() << '\n';
-	std::cout << "  Water temperature: " << water_temperature() << '\n';
-	std::cout << "  Water turbidity: " << water_turbidity() << '\n';
+	server messenger;
+	while (true)
+	{
+		//messenger.message =
+		//    to_json({atmospheric_dust(), water_turbidity(), water_temperature(),
+		//             atmospheric_humidity(), atmospheric_pressure(), atmospheric_temperature()});
+        messenger.set_message(
+            to_json({1.0, 1.0, 1.0,
+                     1.0, 1.0, 1.0}));
 
-	std::cout << "Meteo station:\n";
-	std::cout << "  Atmospheric temperature: " << atmospheric_temperature() << '\n';
-	std::cout << "  Atmospheric humidity: " << atmospheric_humidity() << '\n';
-	std::cout << "  Atmospheric pressure: " << atmospheric_pressure() << '\n';
+		using namespace std::chrono_literals;
+		std::this_thread::sleep_for(1000ms);
+	}
 }

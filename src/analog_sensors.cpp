@@ -1,9 +1,10 @@
 #include "analog_sensors.h"
 
 #include <cassert>
-#include <fstream>
 #include <cstdint>
+#include <fstream>
 #include <gpiod.hpp>
+#include <string>
 #include <unistd.h>
 
 namespace {
