@@ -1,14 +1,15 @@
 #include "server.h"
 #include <iostream>
+#include <utility>
 
 namespace beast = boost::beast;
 namespace http = beast::http;
 namespace asio = boost::asio;
 using tcp = asio::ip::tcp;
 
-server::server(const std::function<std::string()>& new_provider, unsigned short port)
+server::server(std::function<std::string()>  new_provider, unsigned short port)
     : context{}, acceptor{context, {tcp::v4(), port}},
-      should_stop{false}, worker{&server::run, this}, provider{new_provider}
+      should_stop{false}, worker{&server::run, this}, provider{std::move(new_provider)}
 {
 }
 void server::run()
