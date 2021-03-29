@@ -1,16 +1,13 @@
 #include "encoder.h"
 #include <nlohmann/json.hpp>
-#include <ctime>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace
 {
 	std::string iso_8601_time_now()
 	{
-		std::time_t now;
-		std::time(&now);
-		char buffer[25];
-		std::strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&now));
-		return std::string{buffer};
+        using namespace boost::posix_time;
+		return to_iso_extended_string(microsec_clock::universal_time()) + 'Z';
 	}
 }
 
