@@ -1,9 +1,6 @@
-#include "fundamental_types.h"
 #include "server.h"
-#include <cstdlib>
-#include <iostream>
 #include <spdlog/spdlog.h>
-#include <unistd.h>
+#include <iostream>
 
 int main()
 {
@@ -20,8 +17,12 @@ int main()
 
 	try
 	{
-		auto provider = +[]() { return "{\"hello\": \"world\"}"; };
+		spdlog::info("Initializing server");
+		auto provider{[]() { return "{\"hello\": \"world\"}"; }};
 		server messenger{provider};
+
+		spdlog::info("Initialization finished");
+		std::cin.get();
 	}
 	catch (const std::exception& e)
 	{
