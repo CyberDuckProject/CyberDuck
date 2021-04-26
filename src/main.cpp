@@ -15,7 +15,7 @@ int main()
 	if (geteuid() != 0)
 	{
 		spdlog::error("This program must with root privelages");
-		std::exit(EXIT_FAILURE);
+		return EXIT_FAILURE;
 	}
 
 	try
