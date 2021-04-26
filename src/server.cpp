@@ -1,5 +1,5 @@
 #include "server.h"
-#include <iostream>
+#include <spdlog/spdlog.h>
 #include <utility>
 
 namespace beast = boost::beast;
@@ -7,11 +7,24 @@ namespace http = beast::http;
 namespace asio = boost::asio;
 using tcp = asio::ip::tcp;
 
-server::server(std::function<std::string()>  new_provider, unsigned short port)
+server::server(std::function<std::string()> new_provider, u16 port)
     : context{}, acceptor{context, {tcp::v4(), port}},
       should_stop{false}, worker{&server::run, this}, provider{std::move(new_provider)}
 {
 }
+
+server::~server()
+{
+	should_stop = true;
+	worker.join();
+}
+
+void server::set_message_provider(const std::function<std::string()>& new_provider)
+{
+	std::lock_guard<std::mutex> lock{mut};
+	provider = new_provider;
+}
+
 void server::run()
 {
 	static size_t request_count = 0;
@@ -19,9 +32,9 @@ void server::run()
 	{
 		tcp::socket socket{context};
 		acceptor.accept(socket);
-		std::clog << "Received request#" << ++request_count << " from "
-		          << socket.remote_endpoint().address().to_string() << ":"
-		          << socket.remote_endpoint().port() << '\n';
+		spdlog::debug("Received request #{} from {}:{}", ++request_count,
+		              socket.remote_endpoint().address().to_string(),
+		              socket.remote_endpoint().port());
 		try
 		{
 			beast::flat_buffer buffer{8192};
@@ -49,25 +62,15 @@ void server::run()
 
 			response.content_length(response.body().size());
 			http::write(socket, response);
-			std::clog << "Successfully sent response" << '\n';
+			spdlog::debug("Successfully sent response");
 		}
 		catch (const std::exception& e)
 		{
-			std::cerr << "Error sending response: " << e.what() << '\n';
+			spdlog::error("Error sending response: {}", e.what());
 		}
 		catch (...)
 		{
-			std::clog << "Unknown error while sending response" << '\n';
+			spdlog::error("Unknown error while sending response");
 		}
 	}
-}
-server::~server()
-{
-	should_stop = true;
-	worker.join();
-}
-void server::set_message_provider(const std::function<std::string()>& new_provider)
-{
-	std::lock_guard<std::mutex> lock{mut};
-	provider = new_provider;
 }

@@ -1,7 +1,11 @@
-# Editor configs
-.vscode/
-.idea/
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
 
-# Build directories
-build/
+.idea/
 cmake-build-*/
+
+.vscode/
+[Bb]uild/
