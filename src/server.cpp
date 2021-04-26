@@ -45,7 +45,7 @@ void server::run()
 			response.version(request.version());
 			response.keep_alive(false);
 
-			if (request.method() == http::verb::get && request.target() == "/cyberduck")
+			if (request.method() == http::verb::get && request.target() == "/environment")
 			{
 				response.result(http::status::ok);
 				response.set(http::field::content_type, "application/json");
