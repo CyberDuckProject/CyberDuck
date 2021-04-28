@@ -66,11 +66,11 @@ void server::run()
 		}
 		catch (const std::exception& e)
 		{
-			spdlog::error("Error sending response: {}", e.what());
+			spdlog::error("Response error: {}", e.what());
 		}
 		catch (...)
 		{
-			spdlog::error("Unknown error while sending response");
+			spdlog::error("Unknown response error");
 		}
 	}
 }

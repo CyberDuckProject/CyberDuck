@@ -11,7 +11,7 @@ int main()
 
 	if (geteuid() != 0)
 	{
-		spdlog::error("This program must with root privelages");
+		spdlog::error("Fatal error: insufficient program privelages");
 		return EXIT_FAILURE;
 	}
 
@@ -26,12 +26,12 @@ int main()
 	}
 	catch (const std::exception& e)
 	{
-		spdlog::error("An error has occured: {}", e.what());
+		spdlog::error("Fatal error: {}", e.what());
 		return EXIT_FAILURE;
 	}
 	catch (...)
 	{
-		spdlog::error("An unknown error has occured");
+		spdlog::error("Unknown fatal error");
 		return EXIT_FAILURE;
 	}
 
