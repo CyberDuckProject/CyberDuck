@@ -1,8 +1,9 @@
+#include "sensors.h"
 #include "server.h"
-#include <spdlog/spdlog.h>
 #include <iostream>
+#include <spdlog/spdlog.h>
 
-int main()
+i32 main()
 {
 	spdlog::set_pattern("[%T] %^%v%$");
 #ifndef NDEBUG
@@ -17,8 +18,11 @@ int main()
 
 	try
 	{
+		spdlog::info("Initializing sensors");
+		sensors environment{};
+
 		spdlog::info("Initializing server");
-		auto provider{[]() { return "{\"hello\": \"world\"}"; }};
+		auto provider{[&environment]() { return environment.json(); }};
 		server messenger{provider};
 
 		spdlog::info("Initialization finished");
