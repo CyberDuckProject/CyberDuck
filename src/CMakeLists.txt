@@ -4,8 +4,14 @@ add_executable(
     fundamental_types.h
     server.h
     server.cpp
-    sensors.h
-    sensors.cpp
+    environment.h
+    environment.cpp
+    sensors/dust.h
+    sensors/dust.cpp
+    sensors/pressure.h
+    sensors/pressure.cpp
+    sensors/analog_input.h
+    sensors/analog_input.cpp
 )
 
 find_package(spdlog REQUIRED)
@@ -23,3 +29,5 @@ target_link_libraries(
     Boost::date_time
     gpiodcxx
 )
+
+target_include_directories(CyberDuck PRIVATE .)

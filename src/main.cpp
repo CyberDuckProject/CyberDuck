@@ -1,4 +1,4 @@
-#include "sensors.h"
+#include "environment.h"
 #include "server.h"
 #include <iostream>
 #include <spdlog/spdlog.h>
@@ -19,7 +19,7 @@ i32 main()
 	try
 	{
 		spdlog::info("Initializing sensors");
-		sensors environment{};
+		environment environment{};
 
 		spdlog::info("Initializing server");
 		auto provider{[&environment]() { return environment.json(); }};
