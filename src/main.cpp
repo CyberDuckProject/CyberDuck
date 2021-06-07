@@ -1,43 +1,23 @@
-#include "environment.h"
-#include "server.h"
+#include "sensors.h"
 #include <iostream>
-#include <spdlog/spdlog.h>
+
+#include <sstream>
+std::string json()
+{
+	std::stringstream ss;
+	ss << "{\"water_temperature\":" << sensors::water_temperature() << ',';
+	ss << "\"water_turbidity\":" << sensors::water_turbidity() << ',';
+	ss << "\"atmospheric_dust\":" << sensors::atmospheric_dust() << '}';
+	return ss.str();
+}
 
 i32 main()
 {
-	spdlog::set_pattern("[%T] %^%v%$");
-#ifndef NDEBUG
-	spdlog::set_level(spdlog::level::debug);
-#endif
+	sensors::init();
 
-	if (geteuid() != 0)
-	{
-		spdlog::error("Fatal error: insufficient program privelages");
-		return EXIT_FAILURE;
-	}
-
-	try
-	{
-		spdlog::info("Initializing sensors");
-		environment environment{};
-
-		spdlog::info("Initializing server");
-		auto provider{[&environment]() { return environment.json(); }};
-		server messenger{provider};
-
-		spdlog::info("Initialization finished");
-		std::cin.get();
-	}
-	catch (const std::exception& e)
-	{
-		spdlog::error("Fatal error: {}", e.what());
-		return EXIT_FAILURE;
-	}
-	catch (...)
-	{
-		spdlog::error("Unknown fatal error");
-		return EXIT_FAILURE;
-	}
+	std::cout << "water temperature: " << sensors::water_temperature() << " C\n";
+	std::cout << "water turbidity: " << sensors::water_turbidity() << " NTU\n";
+	std::cout << "atmospheric dust: " << sensors::atmospheric_dust() << " ug/m3\n";
 
 	return EXIT_SUCCESS;
 }
