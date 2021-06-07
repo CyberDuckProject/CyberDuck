@@ -5,4 +5,4 @@
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/CyberDuckProject/CyberDuck.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CyberDuckProject/CyberDuck/context:cpp)
 
 ## Dependencies
-    sudo apt-get install nlohmann-json3-dev libboost-all-dev libgpiod-dev libspdlog-dev libi2c-dev
+    sudo apt-get install libgpiod-dev libi2c-dev

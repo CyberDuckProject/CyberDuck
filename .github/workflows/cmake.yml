@@ -10,7 +10,7 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
     - name: Install Dependencies
-      run: sudo apt-get install -y nlohmann-json3-dev libboost-all-dev libgpiod-dev libspdlog-dev
+      run: sudo apt-get install -y libgpiod-dev libi2c-dev
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
